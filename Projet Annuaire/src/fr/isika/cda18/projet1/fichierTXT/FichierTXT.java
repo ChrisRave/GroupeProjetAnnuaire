@@ -27,7 +27,7 @@ class FichierTXT {
 				stagiaire.setAnnee(br.readLine());
 				System.out.println(stagiaire);
 				br.readLine();
-				
+
 			}
 
 			br.close();

@@ -71,8 +71,8 @@ public class Stagiaire {
 
 	@Override
 	public String toString() {
-		return "Nom : " + nom + "\t Prenom : " + prenom + "\t departement : " + departement + "\t Promotion"
-				+ promotion + "\t annee : " + annee ;
+		return "Nom: " + nom + "\t Prenom: " + prenom + "\t Departement: " + departement + "\t Promotion: "
+				+ promotion + "\t Annee: " + annee ;
 	} 
 	
    
