@@ -14,10 +14,11 @@ class FichierTXT {
 	public static void main(String[] args) {
 
 		try {
-			File monFichier = new File("C:\\Users\\ravel\\OneDrive\\Documents\\CDA 18\\W7\\D3\\Docs\\STAGIAIRES.DON");
+			File monFichier = new File("src/mesFichiers/STAGIAIRES.DON");
 			FileReader fr = new FileReader(monFichier);
 			BufferedReader br = new BufferedReader(fr);
 			String ligne = null;
+			
 			Stagiaire stagiaire = new Stagiaire(ligne, ligne, ligne, ligne, ligne);
 			while (br.ready()) {
 				stagiaire.setNom(br.readLine());
@@ -26,8 +27,10 @@ class FichierTXT {
 				stagiaire.setPromotion(br.readLine());
 				stagiaire.setAnnee(br.readLine());
 				System.out.println(stagiaire);
+				
 				br.readLine();
-
+				
+				
 			}
 
 			br.close();
