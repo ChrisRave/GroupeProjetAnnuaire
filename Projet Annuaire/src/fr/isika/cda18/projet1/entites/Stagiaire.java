@@ -66,6 +66,13 @@ public class Stagiaire {
 
 	public void setAnnee(String annee) {
 		this.annee = annee;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Nom : " + nom + "\t Prenom : " + prenom + "\t departement : " + departement + "\t Promotion"
+				+ promotion + "\t annee : " + annee ;
 	} 
 	
    
