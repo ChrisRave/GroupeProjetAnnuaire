@@ -23,6 +23,7 @@ public class Stagiaire {
 		this.departement = departement ;
 		this.promotion = promotion;
 		this.annee = annee;
+		
 	}
 
 	public String getNom() {
@@ -68,7 +69,7 @@ public class Stagiaire {
 	@Override
 	public String toString() {
 		return "Nom : " + nom + "\t  Prenom : " + prenom + "\t Departement=" + departement + "\t Promotion : "
-				+ promotion + "\t Annee : " + annee;
+				+ promotion + "\t Annee : " + annee + "\n";
 	}
 
 	public String agrandirNom() {
