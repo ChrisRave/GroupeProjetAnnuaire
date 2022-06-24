@@ -5,16 +5,18 @@ public class Stagiaire {
 	public static final int TAILLE_NOM = 42;
 	public static final int TAILLE_PRENOM = 40;
 	public static final int TAILLE_PROMO = 22;
+	public static final int TAILLE_DEPARTEMENT = 2;
+	public static final int TAILLE_ANNEE = 4;
 	public static final int TAILLE_OBJET_OCTET = 112;
 
 	String nom;
 	String prenom;
-	int departement;
+	String departement;
 	String promotion;
-	int annee;
+	String annee;
 
 
-	public Stagiaire(String nom, String prenom, int departement , String promotion, int annee) {
+	public Stagiaire(String nom, String prenom, String departement , String promotion, String annee) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -39,11 +41,11 @@ public class Stagiaire {
 		this.prenom = prenom;
 	}
 
-	public int getDepartement() {
+	public String getDepartement() {
 		return departement;
 	}
 
-	public void setDepartement(int departement) {
+	public void setDepartement(String departement) {
 		this.departement = departement;
 	}
 
@@ -55,11 +57,11 @@ public class Stagiaire {
 		this.promotion = promotion;
 	}
 
-	public int getAnnee() {
+	public String getAnnee() {
 		return annee;
 	}
 
-	public void setAnnee(int annee) {
+	public void setAnnee(String annee) {
 		this.annee = annee;
 	}
 
@@ -87,7 +89,7 @@ public class Stagiaire {
 
 	public String agrandirPromo() {
 		String promoLong = this.promotion;
-		for (int i = nom.length(); i < TAILLE_PROMO; i++) {
+		for (int i = promotion.length(); i < TAILLE_PROMO; i++) {
 			promoLong += " ";
 		}
 		return promoLong;
