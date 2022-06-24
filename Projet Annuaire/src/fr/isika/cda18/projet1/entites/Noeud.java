@@ -5,7 +5,7 @@ public class Noeud {
 	private Noeud filsGauche;
 	private Noeud filsDroit;
 
-	public Noeud(Stagiaire stagiaire, Noeud filsGauche, Noeud filsDroit) {
+	public Noeud(Stagiaire stagiaire) {
 		
 		this.stagiaire= stagiaire;
 		this.filsGauche = null;
@@ -53,13 +53,13 @@ public class Noeud {
 		public void ajouterStagiaire(Stagiaire stagiaireAAjouter) {
 			if (this.stagiaire.getNom().compareTo(stagiaireAAjouter.getNom()) > 0) {
 				if (this.filsGauche == null) {
-					this.filsGauche = new Noeud(stagiaireAAjouter, filsGauche, filsDroit);
+					this.filsGauche = new Noeud(stagiaireAAjouter);
 				} else {
 					this.filsGauche.ajouterStagiaire(stagiaireAAjouter);
 				}
 			} else {
 				if (this.filsDroit == null) {
-					this.filsDroit = new Noeud(stagiaireAAjouter, filsGauche, filsDroit);
+					this.filsDroit = new Noeud(stagiaireAAjouter);
 				} else {
 					this.filsDroit.ajouterStagiaire(stagiaireAAjouter);
 				}
