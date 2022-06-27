@@ -1,20 +1,91 @@
 package fr.isika.cda18.projet1.entites;
 
-public class ArbreBinaire extends LanceurRaf{
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.TreeSet;
+
+
+public class ArbreBinaire {
 	
-	public static void main(String[] args) {
-		Stagiaire s1 = new Stagiaire("GHAZALA", "Houssam", "91", "ATOD 6", "2009");
-		Stagiaire s2 = new Stagiaire("CHABAUD", "Julien", "75", "AI 91", "2014");
-		Stagiaire s3 = new Stagiaire("MADELAIGUE", "Pascal", "92", "BOBI 3", "2007");
-		Stagiaire s4 = new Stagiaire("DAVID", "Aur�lie", "75", "ATOD 2", "2008");
-		Noeud monArbre = new Noeud(s1);
-		monArbre.ajouterStagiaire(s2);
-		monArbre.ajouterStagiaire(s3);
-		monArbre.ajouterStagiaire(s4);
-		
-		System.out.println(monArbre);
-	 
-		
+	Noeud monArbreBinaire;
+	Noeud racine;
+	static List<Stagiaire> stagiaires = new ArrayList<>();
+	public void importFichier() {
+		try {
+			FileReader fr = new FileReader("src/mesFichiers/STAGIAIRES_V2.DON");
+			BufferedReader br = new BufferedReader(fr);
+			
+			Stagiaire stagiaire = new Stagiaire(null, null,null,null,null);
+			while (br.ready()) {
+				stagiaire.setNom(br.readLine());
+				stagiaire.setPrenom(br.readLine());
+				stagiaire.setDepartement(br.readLine());
+				stagiaire.setPromotion(br.readLine());
+				stagiaire.setAnnee(br.readLine());
+				br.readLine();
+			
+				stagiaires.add(stagiaire); 
+				System.out.println(stagiaires);
+			}
+
+			br.close();
+			fr.close(); 
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
+//déclarer raf avec et initialiser dans le constructeur
+	
+	public void ajouterRacine(Noeud racineAjouter) throws IOException {
+		
+		try {
+			RandomAccessFile raf = new RandomAccessFile("src/mesFichiers/listeStagiaires.bin", "rw");
+			if (raf.length () == 0 ){
+				this.racine = new Noeud(racineAjouter.getStagiaire(), -1, -1); 
+				this.racine.ecritureBinaire();
+				raf.close(); 
+			}else {
+				raf.seek(0); 
+				//ajouter Noeud récursif 
+			}
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+ 
+		// if raf.length = 0 
+			
+			
+////séparer dans nouvelle méthode 				
+			}
+//			else if (this.racine.getStagiaire().getNom().compareTo(noeudAAjouter.getStagiaire().getNom()) > 0) {
+//				if (this.racine.getFilsGauche() == -1) {
+//					
+//					this.filsGauche()++; // taille d'un fichier divisé par la taille du noeud, variable static pour Noeud (taille stagiaire + taille fils gauche et fils droit), l'écriture sur le fils g et fils d se fait dans fichier bin
+//					this.noeudAAjouter.ecritureBinaire();
+//					this.noeudAAjouter.lectureBinaire();
+//				} else {
+//					this.filsGauche.ajouterNoeud(noeudAAjouter);
+//				}
+//			} else {
+//				if (this.racine.getFilsDroit() == -1) {
+//					
+//					this.filsDroit++; 
+//					this.noeudAAjouter.ecritureBinaire();
+//					this.noeudAAjouter.lectureBinaire();
+//				} else {
+//					this.filsDroit.ajouterNoeud(noeudAAjouter);
+//				}
+//			}
+//		}
+//
+//	}
 
 }

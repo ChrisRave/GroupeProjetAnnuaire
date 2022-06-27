@@ -1,13 +1,8 @@
 
 package fr.isika.cda18.projet1.entites;
 
-public class Stagiaire {
-	public static final int TAILLE_NOM = 42;
-	public static final int TAILLE_PRENOM = 40;
-	public static final int TAILLE_PROMO = 22;
-	public static final int TAILLE_DEPARTEMENT = 2;
-	public static final int TAILLE_ANNEE = 4;
-	public static final int TAILLE_OBJET_OCTET = 112;
+public class Stagiaire implements InterfaceStagiaire {
+	
 
 	String nom;
 	String prenom;
@@ -15,7 +10,7 @@ public class Stagiaire {
 	String promotion;
 	String annee;
 
-
+	//Constructeur
 	public Stagiaire(String nom, String prenom, String departement , String promotion, String annee) {
 		super();
 		this.nom = nom;
@@ -25,7 +20,7 @@ public class Stagiaire {
 		this.annee = annee;
 		
 	}
-
+	//Getters et Setters
 	public String getNom() {
 		return nom;
 	}
@@ -65,7 +60,8 @@ public class Stagiaire {
 	public void setAnnee(String annee) {
 		this.annee = annee;
 	}
-
+	
+	//Méthodes Spécifiques
 	@Override
 	public String toString() {
 		return "Nom : " + nom + "\t  Prenom : " + prenom + "\t Departement=" + departement + "\t Promotion : "

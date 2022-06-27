@@ -1,19 +1,19 @@
-package fr.isika.cda18.projet1.fichierTXT;
+package fr.isika.cda18.projet1.entites;
 
 import java.io.*;
-
-import fr.isika.cda18.projet1.entites.Stagiaire;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import fr.isika.cda18.projet1.entites.Stagiaire;
 
-class FichierTXT {
+class LanceurFichierTxt {
+	
+	
+	static List<Stagiaire> stagiaires = new ArrayList<>();
+	
 	public static void main(String[] args) {
 		
-		List<Stagiaire> stagiaires = new ArrayList<>();
+		
 
 		try {
 			FileReader fr = new FileReader("src/mesFichiers/STAGIAIRES_V2.DON");
@@ -29,16 +29,17 @@ class FichierTXT {
 				br.readLine();
 			
 				stagiaires.add(stagiaire); 
-				
+				System.out.println(stagiaires);
+
 			}
 
 			br.close();
 			fr.close(); 
 
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-
+	
 	}
 
 }
