@@ -13,56 +13,60 @@ import java.util.TreeSet;
 
 public class ArbreBinaire {
 	
-	Noeud monArbreBinaire;
-	Noeud racine;
+
 	static List<Stagiaire> stagiaires = new ArrayList<>();
-	public void importFichier() {
+	
+	 Noeud racine; 
+	
+public  void importFichier(){
+		
+
 		try {
 			FileReader fr = new FileReader("src/mesFichiers/STAGIAIRES_V2.DON");
 			BufferedReader br = new BufferedReader(fr);
 			
-			Stagiaire stagiaire = new Stagiaire(null, null,null,null,null);
+			
 			while (br.ready()) {
+				Stagiaire stagiaire = new Stagiaire(null, null,null,null,null);
 				stagiaire.setNom(br.readLine());
 				stagiaire.setPrenom(br.readLine());
 				stagiaire.setDepartement(br.readLine());
 				stagiaire.setPromotion(br.readLine());
 				stagiaire.setAnnee(br.readLine());
 				br.readLine();
-			
 				stagiaires.add(stagiaire); 
-				System.out.println(stagiaires);
-			}
+				
 
+			}
+			System.out.println(stagiaires);
 			br.close();
 			fr.close(); 
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-	}
-//déclarer raf avec et initialiser dans le constructeur
 	
-	public void ajouterRacine(Noeud racineAjouter) throws IOException {
-		
-		try {
-			RandomAccessFile raf = new RandomAccessFile("src/mesFichiers/listeStagiaires.bin", "rw");
-			if (raf.length () == 0 ){
-				this.racine = new Noeud(racineAjouter.getStagiaire(), -1, -1); 
-				this.racine.ecritureBinaire();
-				raf.close(); 
-			}else {
-				raf.seek(0); 
-				//ajouter Noeud récursif 
-			}
-		} catch (FileNotFoundException e) {
+	}
+
+
 			
-			e.printStackTrace();
+public void ajouterRacine(Noeud racineAjouter) throws IOException {
+	try {
+		RandomAccessFile raf = new RandomAccessFile("src/mesFichiers/listeStagiaires.bin", "rw");
+		if (raf.length() == 0) {
+			this.racine = racineAjouter;
+			this.racine.ecritureBinaire();
+			raf.close();
+		} else {
+			raf.seek(0);
+			// ajouter Noeud récursif
 		}
- 
-		// if raf.length = 0 
-			
-			
+	} catch (FileNotFoundException e) {
+		e.printStackTrace();
+	}
+
+
+	
 ////séparer dans nouvelle méthode 				
 			}
 //			else if (this.racine.getStagiaire().getNom().compareTo(noeudAAjouter.getStagiaire().getNom()) > 0) {
@@ -88,4 +92,7 @@ public class ArbreBinaire {
 //
 //	}
 
+
 }
+
+

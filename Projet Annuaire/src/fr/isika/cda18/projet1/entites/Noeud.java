@@ -4,11 +4,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-public class Noeud{
+public class Noeud implements InterfaceTailles{
 	private Stagiaire stagiaire;
 	private int filsGauche;
 	private int filsDroit;
-//taille d'un noeud = stagiaire + 2 entiers
+
 	
 	
 	//Constructeur
@@ -49,14 +49,14 @@ public class Noeud{
 	public void ecritureBinaire() throws IOException {
 
 		try {
-			RandomAccessFile raf = new RandomAccessFile("src/mesFichiers/listStagiaiares.bin", "rw");
+			RandomAccessFile raf = new RandomAccessFile("src/mesFichiers/listeStagiaires.bin", "rw");
 			raf.writeChars(this.stagiaire.agrandirNom());
 			raf.writeChars(this.stagiaire.agrandirPrenom());
 			raf.writeChars(this.stagiaire.getDepartement());
 			raf.writeChars(this.stagiaire.agrandirPromo());
 			raf.writeChars(this.stagiaire.getAnnee());
-			raf.writeInt(filsDroit); 
-			raf.writeInt(filsGauche); 
+			raf.writeInt(this.filsDroit); 
+			raf.writeInt(this.filsGauche); 
 			raf.close();
 		} catch (IOException e) {
 			
@@ -70,7 +70,7 @@ public class Noeud{
 
 		RandomAccessFile raf;
 		try {
-			raf = new RandomAccessFile("src/mesFichiers/listStagiaiares.bin", "rw");
+			raf = new RandomAccessFile("src/mesFichiers/listeStagiaiares.bin", "rw");
 			raf.seek(0);
 			for (int j = 0; j < raf.length() / Stagiaire.TAILLE_OBJET_OCTET; j++) {
 				String nom = "";
@@ -78,6 +78,8 @@ public class Noeud{
 				String departement = "";
 				String promo = "";
 				String annee = "";
+				int filsGauche = -1 ; 
+				int filsDroit = -1; 
 				for (int i = 0; i < Stagiaire.TAILLE_NOM; i++) {
 					nom += raf.readChar();
 				}
@@ -93,7 +95,12 @@ public class Noeud{
 				for (int i = 0; i < Stagiaire.TAILLE_ANNEE; i++) {
 					annee += raf.readChar();
 				}
-//rajouter fils gauche et fils droit
+				for (int i = 0; i< Stagiaire.TAILLE_OBJET_OCTET; i++) {
+					filsGauche+= raf.readInt(); 
+				}
+				for (int i = 0; i< Stagiaire.TAILLE_OBJET_OCTET; i++) {
+					filsDroit+= raf.readInt(); 
+				}
 				System.out.println("Nom :" + nom.trim() + "\t Prenom :" + prenom.trim() + "\t Departement :"
 						+ departement + "\t Promotion :" + promo.trim() + "\t Annee : " + annee);
 			}
