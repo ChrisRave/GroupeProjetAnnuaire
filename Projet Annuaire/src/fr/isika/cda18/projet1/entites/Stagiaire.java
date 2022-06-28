@@ -64,7 +64,7 @@ public class Stagiaire implements InterfaceTailles {
 	//Méthodes Spécifiques
 	@Override
 	public String toString() {
-		return "Nom : " + nom + "\t  Prenom : " + prenom + "\t Departement=" + departement + "\t Promotion : "
+		return "Nom : " + nom + "\t  Prenom : " + prenom + "\t Departement :" + departement + "\t Promotion : "
 				+ promotion + "\t Annee : " + annee + "\n";
 	}
 

@@ -3,6 +3,8 @@ package fr.isika.cda18.projet1.entites;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Noeud implements InterfaceTailles {
 	private Stagiaire stagiaire;
@@ -11,10 +13,9 @@ public class Noeud implements InterfaceTailles {
 
 	// Constructeur
 	public Noeud(Stagiaire stagiaire, int filsGauche, int filsDroit) {
-
 		this.stagiaire = stagiaire;
-		this.filsGauche = -1;
-		this.filsDroit = -1;
+		this.filsGauche = filsGauche;
+		this.filsDroit = filsDroit;
 	}
 
 	public Stagiaire getStagiaire() {
@@ -41,16 +42,11 @@ public class Noeud implements InterfaceTailles {
 		this.filsDroit = filsDroit;
 	}
 
-	@Override
-	public String toString() {
-		return "Noeud [stagiaire=" + stagiaire + ", filsGauche=" + filsGauche + ", filsDroit=" + filsDroit + "]";
-	}
-
 	// Méthodes spécifiques
-	public static  void ecritureBinaire(Noeud noeud) throws IOException {
+	public static void ecritureBinaire(Noeud noeud) throws IOException {
 
 		try {
-			RandomAccessFile raf = new RandomAccessFile("src/mesFichiers/listeStagiaires.bin", "rw");
+
 			LanceurBinaire.raf.writeChars(noeud.getStagiaire().agrandirNom());
 			LanceurBinaire.raf.writeChars(noeud.getStagiaire().agrandirPrenom());
 			LanceurBinaire.raf.writeChars(noeud.getStagiaire().getDepartement());
@@ -58,18 +54,17 @@ public class Noeud implements InterfaceTailles {
 			LanceurBinaire.raf.writeChars(noeud.getStagiaire().getAnnee());
 			LanceurBinaire.raf.writeInt(noeud.filsGauche);
 			LanceurBinaire.raf.writeInt(noeud.filsDroit);
-			raf.close();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	public  void lectureBinaire() throws IOException {
-
-	
+	public static void lectureBinaire() throws IOException {
+		
+		RandomAccessFile raf;
 		try {
-			RandomAccessFile raf = new RandomAccessFile("src/mesFichiers/listeStagiaires.bin", "rw");
+			raf = new RandomAccessFile("src/mesFichiers/listeStagiaires.bin", "rw");
 			LanceurBinaire.raf.seek(0);
 			for (int j = 0; j < raf.length() / Stagiaire.TAILLE_OBJET_OCTET; j++) {
 				String nom = "";
@@ -77,8 +72,6 @@ public class Noeud implements InterfaceTailles {
 				String departement = "";
 				String promo = "";
 				String annee = "";
-				int filsGauche = -1;
-				int filsDroit = -1;
 				for (int i = 0; i < Stagiaire.TAILLE_NOM; i++) {
 					nom += LanceurBinaire.raf.readChar();
 				}
@@ -94,63 +87,74 @@ public class Noeud implements InterfaceTailles {
 				for (int i = 0; i < Stagiaire.TAILLE_ANNEE; i++) {
 					annee += LanceurBinaire.raf.readChar();
 				}
-					filsGauche = LanceurBinaire.raf.readInt();
-					filsDroit = LanceurBinaire.raf.readInt();
-					
-				
-				System.out.println("Nom :" + nom.trim() + "\t Prenom :" + prenom.trim() + "\t Departement :"
-						+ departement + "\t Promotion :" + promo.trim() + "\t Annee : " + annee);
+				int filsGauche = LanceurBinaire.raf.readInt();
+				int filsDroit = LanceurBinaire.raf.readInt();
+
+				System.out
+						.println("Nom :" + nom.trim() + "\t Prenom :" + prenom.trim() + "\t Departement :" + departement
+								+ "\t Promotion :" + promo.trim() + "\t Annee : " + annee + filsDroit + filsGauche);
 			}
-			
-
 		} catch (FileNotFoundException e) {
-
 			e.printStackTrace();
 		}
-
 	}
-	public static Noeud  lectureNoeud() throws IOException {
 
-		Stagiaire stg = null ; 
+	@Override
+	public String toString() {
+		return "*****Lecture Noeud*****\n"  + "Noeud"+ stagiaire + "\t Index gauche: " + filsGauche + "\t Index droit: " + filsDroit;
+	}
+
+	public static Noeud lectureNoeud() throws IOException {
+		
+		Stagiaire stg = null;
 		int filsGauche = -1;
 		int filsDroit = -1;
 		try {
-			RandomAccessFile raf = new RandomAccessFile("src/mesFichiers/listeStagiaires.bin", "rw");			
-				String nom = "";
-				String prenom = "";
-				String departement = "";
-				String promo = "";
-				String annee = "";
-				
-				for (int i = 0; i < Stagiaire.TAILLE_NOM; i++) {
-					nom += LanceurBinaire.raf.readChar();
-				}
-				for (int i = 0; i < Stagiaire.TAILLE_PRENOM; i++) {
-					prenom += LanceurBinaire.raf.readChar();
-				}
-				for (int i = 0; i < Stagiaire.TAILLE_DEPARTEMENT; i++) {
-					departement += LanceurBinaire.raf.readChar();
-				}
-				for (int i = 0; i < Stagiaire.TAILLE_PROMO; i++) {
-					promo += LanceurBinaire.raf.readChar();
-				}
-				for (int i = 0; i < Stagiaire.TAILLE_ANNEE; i++) {
-					annee += LanceurBinaire.raf.readChar();
-				}
-					filsGauche = LanceurBinaire.raf.readInt();
+			String nom = "";
+			String prenom = "";
+			String departement = "";
+			String promo = "";
+			String annee = "";
+			for (int i = 0; i < Stagiaire.TAILLE_NOM; i++) {
+				nom += LanceurBinaire.raf.readChar();
+			}
+			for (int i = 0; i < Stagiaire.TAILLE_PRENOM; i++) {
+				prenom += LanceurBinaire.raf.readChar();
+			}
+			for (int i = 0; i < Stagiaire.TAILLE_DEPARTEMENT; i++) {
+				departement += LanceurBinaire.raf.readChar();
+			}
+			for (int i = 0; i < Stagiaire.TAILLE_PROMO; i++) {
+				promo += LanceurBinaire.raf.readChar();
+			}
+			for (int i = 0; i < Stagiaire.TAILLE_ANNEE; i++) {
+				annee += LanceurBinaire.raf.readChar();
+			}
+			filsGauche = LanceurBinaire.raf.readInt();
+			filsDroit = LanceurBinaire.raf.readInt();
+			stg = new Stagiaire(nom, prenom, departement, promo, annee);
 
-					filsDroit = LanceurBinaire.raf.readInt();
-				
-		 stg = new Stagiaire(nom, prenom, departement, promo, annee)	; 
-			
-			raf.close();
-			
 		} catch (FileNotFoundException e) {
-
 			e.printStackTrace();
 		}
-		Noeud noeud = new Noeud(stg, filsGauche, filsDroit); 
+		Noeud noeud = new Noeud(stg, filsGauche, filsDroit);
 		return noeud;
+	}
+
+	public void affichageInfixe() throws IOException {
+
+		if (this.getFilsGauche() != -1) {
+			LanceurBinaire.raf.seek(this.getFilsGauche() * Stagiaire.TAILLE_OBJET_OCTET);
+			Noeud filsGauche = lectureNoeud();
+			filsGauche.affichageInfixe();
+		}
+
+		System.out.println(this);
+		if (this.getFilsDroit() != -1) {
+			LanceurBinaire.raf.seek(this.getFilsDroit() * Stagiaire.TAILLE_OBJET_OCTET);
+			Noeud filsDroit = lectureNoeud();
+			filsDroit.affichageInfixe();
+		}
 
 	}
 }

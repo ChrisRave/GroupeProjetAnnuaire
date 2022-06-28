@@ -11,17 +11,13 @@ import java.util.List;
 import java.util.TreeSet;
 
 public class ArbreBinaire {
-
 	static List<Stagiaire> stagiaires = new ArrayList<>();
-
-
 
 	public void importFichier() {
 
 		try {
 			FileReader fr = new FileReader("src/mesFichiers/STAGIAIRES_V2.DON");
 			BufferedReader br = new BufferedReader(fr);
-
 			while (br.ready()) {
 				Stagiaire stagiaire = new Stagiaire(null, null, null, null, null);
 				stagiaire.setNom(br.readLine());
@@ -31,59 +27,56 @@ public class ArbreBinaire {
 				stagiaire.setAnnee(br.readLine());
 				br.readLine();
 				stagiaires.add(stagiaire);
-
 			}
-			System.out.println(stagiaires);
+			System.out.println("*********Import fichier********\n " + stagiaires);
 			br.close();
 			fr.close();
-
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
 
+	public void affichageInfixe() throws IOException {
+
+		if (LanceurBinaire.raf.length() != 0) {
+			LanceurBinaire.raf.seek(0);
+			Noeud.lectureNoeud().affichageInfixe();
+		}
 	}
 
 	public void ajouterRacine(Noeud noeud) throws IOException {
-	
-		
+
 		if (LanceurBinaire.raf.length() == 0) {
 			Noeud.ecritureBinaire(noeud);
 		} else {
 			LanceurBinaire.raf.seek(0);
-			this.ajouterStagiaire(noeud); 
+			this.ajouterStagiaire(noeud);
 		}
-		
-}
-	
-	public void ajouterStagiaire(Noeud stagiaireAjouter) throws IOException {
-		
-		Noeud racine = Noeud.lectureNoeud(); 
-		
-		if (racine.getStagiaire().getNom().compareTo(stagiaireAjouter.getStagiaire().getNom()) > 0) {
+	}
 
+	public void ajouterStagiaire(Noeud stagiaireAjouter) throws IOException {
+
+		Noeud racine = Noeud.lectureNoeud();
+		if (racine.getStagiaire().getNom().compareTo(stagiaireAjouter.getStagiaire().getNom()) > 0) {
 			if (racine.getFilsGauche() == -1) {
 				LanceurBinaire.raf.seek(LanceurBinaire.raf.getFilePointer() - 8);
 				LanceurBinaire.raf.writeInt((int) (LanceurBinaire.raf.length() / Stagiaire.TAILLE_OBJET_OCTET));
 				LanceurBinaire.raf.seek(LanceurBinaire.raf.length());
-				Noeud.ecritureBinaire(stagiaireAjouter ); 
+				Noeud.ecritureBinaire(stagiaireAjouter);
 			} else {
-				LanceurBinaire.raf.seek(racine.getFilsGauche()*Stagiaire.TAILLE_OBJET_OCTET);
+				LanceurBinaire.raf.seek(racine.getFilsGauche() * Stagiaire.TAILLE_OBJET_OCTET);
 				this.ajouterStagiaire(stagiaireAjouter);
 			}
-
 		} else {
 			if (racine.getFilsDroit() == -1) {
 				LanceurBinaire.raf.seek(LanceurBinaire.raf.getFilePointer() - 4);
-				LanceurBinaire.raf.writeInt((int) (	LanceurBinaire.raf.length() / Stagiaire.TAILLE_OBJET_OCTET));
-				LanceurBinaire.raf.seek(	LanceurBinaire.raf.length());
-				Noeud.ecritureBinaire(stagiaireAjouter ); 
+				LanceurBinaire.raf.writeInt((int) (LanceurBinaire.raf.length() / Stagiaire.TAILLE_OBJET_OCTET));
+				LanceurBinaire.raf.seek(LanceurBinaire.raf.length());
+				Noeud.ecritureBinaire(stagiaireAjouter);
 			} else {
-				LanceurBinaire.raf.seek(racine.getFilsDroit()*Stagiaire.TAILLE_OBJET_OCTET);
+				LanceurBinaire.raf.seek(racine.getFilsDroit() * Stagiaire.TAILLE_OBJET_OCTET);
 				this.ajouterStagiaire(stagiaireAjouter);
-			
 			}
 		}
-
 	}
-
 }
