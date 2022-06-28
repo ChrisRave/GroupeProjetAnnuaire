@@ -14,7 +14,7 @@ public class ArbreBinaire {
 
 	static List<Stagiaire> stagiaires = new ArrayList<>();
 
-	Noeud racine;
+
 
 	public void importFichier() {
 
@@ -43,43 +43,44 @@ public class ArbreBinaire {
 
 	}
 
-	public void ajouterRacine(Noeud racineAjouter) throws IOException {
+	public void ajouterRacine(Noeud noeud) throws IOException {
+	
 		
-		RandomAccessFile raf ; 
+		if (LanceurBinaire.raf.length() == 0) {
+			Noeud.ecritureBinaire(noeud);
+		} else {
+			LanceurBinaire.raf.seek(0);
+			this.ajouterStagiaire(noeud); 
+		}
 		
-			if (LanceurBinaire.raf.length() == 0) {
-				this.racine = racineAjouter;
-				this.racine.ecritureBinaire();
-				LanceurBinaire.raf.close();
-			} else {
-				LanceurBinaire.raf.seek(0);
-				this.ajouterStagiaire(new Noeud(null, -1, -1));
-			}
-
-	}
+}
+	
 	public void ajouterStagiaire(Noeud stagiaireAjouter) throws IOException {
+		
+		Noeud racine = Noeud.lectureNoeud(); 
+		
+		if (racine.getStagiaire().getNom().compareTo(stagiaireAjouter.getStagiaire().getNom()) > 0) {
 
-		RandomAccessFile raf;
-
-		if (this.racine.getStagiaire().getNom().compareTo(stagiaireAjouter.getStagiaire().getNom()) > 0) {
-
-			if (this.racine.getFilsGauche() == -1) {
-				LanceurBinaire.raf.seek(raf.getFilePointer() - 8);
-				LanceurBinaire.raf.writeInt((int) (raf.length() / Stagiaire.TAILLE_OBJET_OCTET));
-				LanceurBinaire.raf.seek(raf.length());
-				this.ajouterStagiaire(stagiaireAjouter);
+			if (racine.getFilsGauche() == -1) {
+				LanceurBinaire.raf.seek(LanceurBinaire.raf.getFilePointer() - 8);
+				LanceurBinaire.raf.writeInt((int) (LanceurBinaire.raf.length() / Stagiaire.TAILLE_OBJET_OCTET));
+				LanceurBinaire.raf.seek(LanceurBinaire.raf.length());
+				Noeud.ecritureBinaire(stagiaireAjouter ); 
 			} else {
-				this.racine.getFilsGauche().ajouterStagiaire(stagiaireAjouter);
+				LanceurBinaire.raf.seek(racine.getFilsGauche()*Stagiaire.TAILLE_OBJET_OCTET);
+				this.ajouterStagiaire(stagiaireAjouter);
 			}
 
 		} else {
-			if (this.racine.getFilsDroit() == -1) {
-				LanceurBinaire.raf.seek(raf.getFilePointer() - 4);
-				LanceurBinaire.raf.writeInt((int) (raf.length() / Stagiaire.TAILLE_OBJET_OCTET));
-				LanceurBinaire.raf.seek(raf.length());
-				LanceurBinaire.raf.stagiaireAjouter.ecritureBinaire();
+			if (racine.getFilsDroit() == -1) {
+				LanceurBinaire.raf.seek(LanceurBinaire.raf.getFilePointer() - 4);
+				LanceurBinaire.raf.writeInt((int) (	LanceurBinaire.raf.length() / Stagiaire.TAILLE_OBJET_OCTET));
+				LanceurBinaire.raf.seek(	LanceurBinaire.raf.length());
+				Noeud.ecritureBinaire(stagiaireAjouter ); 
 			} else {
-				this.racine.getFilsDroit().ajouterStagiaire(stagiaireAjouter);
+				LanceurBinaire.raf.seek(racine.getFilsDroit()*Stagiaire.TAILLE_OBJET_OCTET);
+				this.ajouterStagiaire(stagiaireAjouter);
+			
 			}
 		}
 
